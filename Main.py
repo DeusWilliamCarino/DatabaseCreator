@@ -1,7 +1,9 @@
 import json
 import random
-from data.dataCollection import trialME
+from data.dataCollection import db_col
+from module import dbmodules as useModule
 import csv
+
 
 with open('data/firstNamesSP.json', 'r') as f:
     data  = json.load(f)
@@ -10,30 +12,33 @@ names =data["Firstname"]
 #print(len(data["Firstname"]))
 listOFNames = []
 listOFCountry = []
-listOfGender = []
-
-for x in range (1000):
-    fname = names[random.randint(0,len(names)-1)]
-    wholename = fname["name"] + " " + names[random.randint(0,len(names)-1)]["name"] 
-    listOFNames.append(wholename)
-    listOFCountry.append(fname["country"])
-    listOfGender.append(fname["gender"])
-
-
-
 filename = "records try.csv"
-rowsforcsv = ["Full Name","Country","Gender"]
-
+rowsforcsv = ["Full Name","Country"]
 dataToCSV = []
 
+
+
+#print(useModule.onlyUnique(names))
+fnamesList =db_col.firstnames
+lnamesList = db_col.lastnames
+countryList = db_col.countrylist
+
+for x in range (1000):
+    fname = fnamesList[random.randint(0,len(fnamesList)-1)]
+    lname = lnamesList[random.randint(0,len(lnamesList)-1)]
+    country = countryList[random.randint(0,len(countryList)-1)]
+
+    wholename = fname + " " + lname 
+    listOFNames.append(wholename)
+    listOFCountry.append(country)
+
+
 for x in range(len(listOFNames)-1):
-        dataToCSV.append([listOFNames[x],listOFCountry[x],listOfGender[x]])
+        dataToCSV.append([listOFNames[x],listOFCountry[x]])
 # writing to csv file
 with open(filename, 'w') as csvfile:
     # creating a csv writer object
     csvwriter = csv.writer(csvfile)
-
     # writing the fields
     csvwriter.writerow(rowsforcsv)
     csvwriter.writerows(dataToCSV)
-        
