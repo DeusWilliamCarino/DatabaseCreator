@@ -1,4 +1,10 @@
+import json
+import random
+import csv
+from data.dataCollection import db_col
 
+with open('data/firstNamesSP.json', 'r') as f:
+    data  = json.load(f)
 
 class dbmodules:
     def checkdupes(list):
@@ -21,3 +27,6 @@ class dbmodules:
                 uniqueVals.append(list[count]["name"])
 
         return uniqueVals
+    
+    def createDB():
+        return "Placer"
