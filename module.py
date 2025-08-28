@@ -4,7 +4,7 @@ import csv
 from data.dataCollection import db_col
 
 with open('data/firstNamesSP.json', 'r') as f:
-    data  = json.load(f)
+    dataJson  = json.load(f)
 
 class dbmodules:
     def checkdupes(list):
@@ -28,5 +28,27 @@ class dbmodules:
 
         return uniqueVals
     
-    def createDB():
-        return "Placer"
+    def addToBeGenerated(name,setOfNames):
+        if name in setOfNames:
+            return "Its already chosen"
+        else:
+            setOfNames.append(name)
+            return setOfNames
+    
+    def removeToBeGenerated(name,setOfNames):
+        if name in setOfNames:
+            setOfNames.remove(name)
+            return setOfNames
+        else:
+            return "It has not been chosen yet"
+
+
+    def createDB(entryNum,listOfHeaders):
+        datEntry = []
+        with open('GeneratedDataset.csv',"w",newline='') as csvfile:
+            if "Name (Fixed)" in listOfHeaders:
+                print("Here")
+            
+            
+        
+        print("Done!")
