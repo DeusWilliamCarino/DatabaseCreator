@@ -251,7 +251,7 @@ class db_col:
         "Zimbabwe",
         "Åland Islands"
     ]
-    firstnames =[
+    firstname =[
         'Mohamed', 
         'Abdelkader', 
         'Ahmed', 
@@ -1052,7 +1052,7 @@ class db_col:
         'Harper', 
         'Matilda'
     ]
-    lastnames =[
+    lastname =[
         "Smith",
         "Brown",
         "Tremblay",

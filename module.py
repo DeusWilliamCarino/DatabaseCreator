@@ -5,6 +5,8 @@ from data.dataCollection import db_col
 
 with open('data/firstNamesSP.json', 'r') as f:
     dataJson  = json.load(f)
+    
+
 
 class dbmodules:
     def checkdupes(list):
@@ -27,6 +29,25 @@ class dbmodules:
                 uniqueVals.append(list[count]["name"])
 
         return uniqueVals
+    @classmethod
+    def genNames(cls,ver):
+        if ver == 1:
+            return dataJson["Firstname"][random.randrange(0,len(dataJson["Firstname"])-1)]
+        else:
+            return db_col.firstname[random.randrange(0,len(db_col.firstname)-1)] + " " +db_col.lastname[random.randrange(0,len(db_col.lastname)-1)]
+    @classmethod
+    def genHeaders(cls,hlist):
+        placer = []
+        for name in hlist:
+            if name == "Names (Fixed)" or name == "Names":
+                placer.append("Name of Person")
+            elif name == "Gender":
+                placer.append("Gender")
+            elif name == "Country":
+                placer.append("Country")
+        
+        return placer
+
     
     def addToBeGenerated(name,setOfNames):
         if name in setOfNames:
@@ -41,14 +62,13 @@ class dbmodules:
             return setOfNames
         else:
             return "It has not been chosen yet"
-
-
-    def createDB(entryNum,listOfHeaders):
-        datEntry = []
-        with open('GeneratedDataset.csv',"w",newline='') as csvfile:
-            if "Name (Fixed)" in listOfHeaders:
-                print("Here")
-            
-            
         
-        print("Done!")
+    @classmethod
+    def createDB(cls,entryNum,listOfHeaders):
+        datEntry = []
+        print(cls.genHeaders(listOfHeaders))
+        print(entryNum)
+        print(cls.genNames(0))
+
+        # with open('GeneratedDataset.csv',"w",newline='') as csvfile:
+        #     print("Hi")
