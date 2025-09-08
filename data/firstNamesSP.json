@@ -1151,10 +1151,7 @@
       {"name":"Hazel","country":"Austrailia","gender":"Female"},
       {"name":"Harper","country":"Austrailia","gender":"Female"},
       {"name":"Matilda","country":"Austrailia","gender":"Female"},
-      {"name":"Grace","country":"Austrailia","gender":"Female"},
-
-
-      {"name":"Placer","country":"Last","gender":"Male"}
+      {"name":"Grace","country":"Austrailia","gender":"Female"}
 
    ]
 }
