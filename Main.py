@@ -159,6 +159,8 @@ class MainWindow(QMainWindow):
         entryNum = self.numOfEntry.text()
         if entryNum == "":
             QMessageBox.critical(self,"No number inputted","Enter a number of data to be generated",buttons=QMessageBox.StandardButton.Ok)
+        elif toBeGenerated == []:
+            QMessageBox.critical(self,"No columns chosen","Enter columns to be generated",buttons=QMessageBox.StandardButton.Ok)
         else:
             useModule.createDB(entryNum,toBeGenerated)
     
