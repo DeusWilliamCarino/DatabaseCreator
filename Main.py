@@ -14,7 +14,9 @@ with open('data/buttonDetails.json', 'r') as f:
     buttonDetails  = json.load(f)
 
 
+
 toBeGenerated = []
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -155,7 +157,10 @@ class MainWindow(QMainWindow):
 
     def generateDBButton(self):
         entryNum = self.numOfEntry.text()
-        useModule.createDB(entryNum,toBeGenerated)
+        if entryNum == "":
+            QMessageBox.critical(self,"No number inputted","Enter a number of data to be generated",buttons=QMessageBox.StandardButton.Ok)
+        else:
+            useModule.createDB(entryNum,toBeGenerated)
     
 
 

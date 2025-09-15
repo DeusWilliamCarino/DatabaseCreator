@@ -5,8 +5,6 @@ from data.dataCollection import db_col
 
 with open('data/firstNamesSP.json', 'r') as f:
     dataJson  = json.load(f)
-    
-
 
 class dbmodules:
     def checkdupes(list):
@@ -32,22 +30,43 @@ class dbmodules:
     @classmethod
     def genNames(cls,ver):
         if ver == 1:
-            return dataJson["Firstname"][random.randrange(0,len(dataJson["Firstname"])-1)]
+            jsondata = dataJson["Firstname"][random.randrange(0,len(dataJson["Firstname"])-1)]
+            jsondata["lastname"] = db_col.lastname[random.randrange(0,len(db_col.lastname)-1)]
+            return jsondata
         else:
             return db_col.firstname[random.randrange(0,len(db_col.firstname)-1)] + " " +db_col.lastname[random.randrange(0,len(db_col.lastname)-1)]
+        
     @classmethod
     def genHeaders(cls,hlist):
         placer = []
         for name in hlist:
             if name == "Names (Fixed)" or name == "Names":
-                placer.append("Name of Person")
+                placer.append("Fullname")
             elif name == "Gender":
                 placer.append("Gender")
             elif name == "Country":
-                placer.append("Country")
-        
+                placer.append("Country")       
         return placer
-
+    
+    @classmethod
+    def genData(cls,hlist):
+        placer = {}
+        for name in hlist:
+            if name == "Names (Fixed)":
+                jsondata = dataJson["Firstname"][random.randrange(0,len(dataJson["Firstname"])-1)]
+                jsondata["lastname"] = db_col.lastname[random.randrange(0,len(db_col.lastname)-1)]
+                jsondata["fullname"] = jsondata["name"] + " "+ jsondata["lastname"]
+                return jsondata
+            else:
+                if name =="Names":
+                   placer["Firstname"] = db_col.firstname[random.randrange(0,len(db_col.firstname)-1)] 
+                   placer["lastname"] = db_col.lastname[random.randrange(0,len(db_col.lastname)-1)]
+                   placer["fullname"] = placer["Firstname"] +" "+placer["lastname"]
+                elif name == "Gender":
+                    placer["gender"]= db_col.genders[random.randrange(0,len(db_col.genders)-1)]
+                elif name == "Country":
+                    placer["country"]=db_col.countrylist[random.randrange(0,len(db_col.countrylist)-1)]
+        return placer
     
     def addToBeGenerated(name,setOfNames):
         if name in setOfNames:
@@ -65,10 +84,17 @@ class dbmodules:
         
     @classmethod
     def createDB(cls,entryNum,listOfHeaders):
-        datEntry = []
-        print(cls.genHeaders(listOfHeaders))
-        print(entryNum)
-        print(cls.genNames(0))
 
-        # with open('GeneratedDataset.csv',"w",newline='') as csvfile:
-        #     print("Hi")
+        with open('GeneratedDataset.csv',"w",newline='') as csvfile:
+            headers = cls.genHeaders(listOfHeaders)
+            compare = [item.lower() for item in headers]
+            writer = csv.writer(csvfile)
+
+            writer.writerow(headers)
+            
+            for z in range(int(entryNum)):
+                dataTB = []
+                dict = cls.genData(listOfHeaders)
+                for x in compare:
+                    dataTB.append(dict[x])
+                writer.writerow(dataTB)
